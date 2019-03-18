@@ -20,7 +20,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     * This is our development environment. Here, we can write smart contracts and test them.
 2. Click on the "+" at the top left corner of the screen.
     * This will create a new empty document to begin development.
-3. Name the document `fancy-faucet.sol`.
+3. Name the document `fancier-faucet.sol`.
 4. Copy and paste the provided [starter code][StarterCode] into the blank document.
     * This code represents a faucet, which will allow anyone to pay it any amount of ETH and will give anyone freely from its reserve any amount requested, provided that it is less than or equal to 100000000000000000 wei (17 zeros) or 0.1 ETH.
 9. Now we should have a faucet contract that looks something like this:
