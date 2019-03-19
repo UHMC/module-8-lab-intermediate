@@ -69,6 +69,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
         function withdraw(uint withdraw_amount) public {
             // Limit withdrawal amount
             require(withdraw_amount <= 0.1 ether);
+            require(address(this).balance >= withdraw_amount, "Insufficient balance in faucet for withdrawal request");
 
             // Send the amount to the address that requested it
             msg.sender.transfer(withdraw_amount);
@@ -119,6 +120,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
         function withdraw(uint withdraw_amount) public {
             // Limit withdrawal amount
             require(withdraw_amount <= 0.1 ether);
+            require(address(this).balance >= withdraw_amount, "Insufficient balance in faucet for withdrawal request");
 
             // Send the amount to the address that requested it
             msg.sender.transfer(withdraw_amount);
