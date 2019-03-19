@@ -25,7 +25,46 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     * This code represents a faucet, which will allow anyone to pay it any amount of ETH and will give anyone freely from its reserve any amount requested, provided that it is less than or equal to 100000000000000000 wei (17 zeros) or 0.1 ETH.
 9. Now we should have a faucet contract that looks something like this:
     ```solidity
-    
+    // Version of Solidity compiler this program was written for
+    pragma solidity ^0.5.1;
+    contract Owned {
+        address owner;
+        // Contract constructor: set owner
+        constructor() public {
+            owner = msg.sender;
+        }
+        // Access control modifier
+        modifier onlyOwner {
+            require(msg.sender == owner, "Only the contract owner can call this function");
+            _;
+        }
+    }
+
+    contract Mortal is Owned {
+    // Contract destructor
+        function destroy() public onlyOwner {
+            selfdestruct(msg.sender);
+        }
+    }
+
+    contract Faucet is Mortal {
+        event Withdrawal(address indexed to, uint amount);
+        event Deposit(address indexed from, uint amount);
+
+        // Give out ether to anyone who asks
+        function withdraw(uint withdraw_amount) public {
+            // Limit withdrawal amount
+            require(withdraw_amount <= 0.1 ether);
+            require(address(this).balance >= withdraw_amount, "Insufficient balance in faucet for withdrawal request");
+                // Send the amount to the address that requested it
+                msg.sender.transfer(withdraw_amount);
+                emit Withdrawal(msg.sender, withdraw_amount);
+            }
+        // Accept any incoming amount
+        function () external payable {
+            emit Deposit(msg.sender, msg.value);
+        }
+    }
     ```
 10. Alright, it's time to test. Go ahead and click **Start to compile (Ctrl-S)** and see if you get any errors.
 11. In the top right, select the **Run** tab. All settings should be the same as for a previous lab, but in the box above the **Deploy** button, it should say **Faucet**. If so, go ahead and click the **Deploy** button.
