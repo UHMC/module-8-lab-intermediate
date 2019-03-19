@@ -23,6 +23,18 @@ This lab will modify a pre-existing faucet smart contract to include additional 
 3. Name the document `fancier-faucet.sol`.
 4. Copy and paste the provided [starter code][StarterCode] into the blank document.
     * This code represents a faucet, which will allow anyone to pay it any amount of ETH and will give anyone freely from its reserve any amount requested, provided that it is less than or equal to 100000000000000000 wei (17 zeros) or 0.1 ETH.
+5. Our first modification will be an exercise in modularity and inheritence. In the same file, above the original contract, make a new contract named `Owned`. Then move the `address owner;` line and the `constructor() ... }` block (including the //comment) from the Faucet contract into the Owned contract.
+6. Inside the Owned contract, add the following code under the constructor:
+    ```solidity
+    // Access control modifier
+    modifier onlyOwner {
+        require(msg.sender == owner, "Only the contract owner can call this function");
+        _;
+    }
+    ```
+    * This code creates a _modifier_ which uses the special character `_` to represent any pre-existing code in a block being modified. We'll see how it's used in a moment.
+7. Create a new contract below the Owned contract but above the Faucet contract and name it `Mortal`, then move the `// Contract destructor` block into it from the Faucet contract.
+8. Delete the `require(...` line, and instead, add `onlyOwner` to the `destroy` function so that it reads `function destroy() public onlyOwner {`.
 9. Now we should have a faucet contract that looks something like this:
     ```solidity
     // Version of Solidity compiler this program was written for
