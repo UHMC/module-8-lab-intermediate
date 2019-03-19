@@ -35,13 +35,47 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     * This code creates a _modifier_ which uses the special character `_` to represent any pre-existing code in a block being modified. We'll see how it's used in a moment.
 7. Create a new contract below the Owned contract but above the Faucet contract and name it `Mortal`, then move the `// Contract destructor` block into it from the Faucet contract.
 8. Delete the `require(...` line, and instead, add `onlyOwner` to the `destroy` function so that it reads `function destroy() public onlyOwner {`.
-8. The Mortal contract does not yet know whom the owner is, so we need to provide it with access to the owner variable defined in the Owned contract. Change the first line of the Mortal contract to have it inherit from Owned.
-9. Now we should have a faucet contract that looks something like this:
+8. The Mortal contract does not yet know whom the owner is or what the onlyOwner modifier is, so we need to provide it with access to them in the Owned contract. Change the first line of the Mortal contract so that it inherits from Owned: `contract Mortal is Owned {`
+9. Our final step in the modularization and inheritence modification is to provide the functionality of Mortal and thereby also Owned by having the Faucet contract inherit from Mortal. Change the first line of the Faucet contract so that it inherits from Mortal: `contract Faucet is Mortal {`.
+10. So far, we should have a file that looks like this (make sure yours matches, at least functionally):
     ```solidity
     // Version of Solidity compiler this program was written for
     pragma solidity ^0.5.1;
+
     contract Owned {
         address owner;
+
+        // Contract constructor: set owner
+        constructor() public {
+            owner = msg.sender;
+        }
+
+        // Access control modifier
+        modifier onlyOwner {
+            require(msg.sender == owner, "Only the contract owner can call this function");
+            _;
+        }
+    }
+
+    contract Mortal is Owned {
+    // Contract destructor
+        function destroy() public onlyOwner {
+            selfdestruct(msg.sender);
+        }
+    }
+
+    contract Faucet is Mortal {
+        // Give out ether to anyone who asks
+        function withdraw(uint withdraw_amount) public {
+            // Limit withdrawal amount
+            require(withdraw_amount <= 0.1 ether);
+            // Send the amount to the address that requested it
+            msg.sender.transfer(withdraw_amount);
+        }
+        // Accept any incoming amount
+        function () external payable {}
+    }
+    ```
         // Contract constructor: set owner
         constructor() public {
             owner = msg.sender;
