@@ -24,7 +24,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
 4. Copy and paste the provided [starter code][StarterCode] into the blank document.
     * This code represents a faucet, which will allow anyone to pay it any amount of ETH and will give anyone freely from its reserve any amount requested, provided that it is less than or equal to 100000000000000000 wei (17 zeros) or 0.1 ETH.
 5. Our first modification will be an exercise in modularity and inheritence. In the same file, above the original contract, make a new contract named `Owned`. Then move the `address owner;` line and the `// Contract constructor: set owner` block from the Faucet contract into the Owned contract.
-6. Inside the Owned contract, add the following code under the constructor:
+6. Inside the Owned contract, add the following code below the constructor block:
     ```solidity
     // Access control modifier
     modifier onlyOwner {
@@ -35,6 +35,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     * This code creates a _modifier_ which uses the special character `_` to represent any pre-existing code in a block being modified. We'll see how it's used in a moment.
 7. Create a new contract below the Owned contract but above the Faucet contract and name it `Mortal`, then move the `// Contract destructor` block into it from the Faucet contract.
 8. Delete the `require(...` line, and instead, add `onlyOwner` to the `destroy` function so that it reads `function destroy() public onlyOwner {`.
+8. The Mortal contract does not yet know whom the owner is, so we need to provide it with access to the owner variable defined in the Owned contract. Change the first line of the Mortal contract to have it inherit from Owned.
 9. Now we should have a faucet contract that looks something like this:
     ```solidity
     // Version of Solidity compiler this program was written for
