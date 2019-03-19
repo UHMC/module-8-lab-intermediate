@@ -76,6 +76,12 @@ This lab will modify a pre-existing faucet smart contract to include additional 
         function () external payable {}
     }
     ```
+11. Next, we'll add events to the code, which allow other software systems to be aware of what our contract is doing. Think of it like the contract saying "hey everyone, I'm ordering pizza." At the top of the Faucet contract, add the following two lines:
+    ```solidity
+    event Withdrawal(address indexed to, uint amount);
+    event Deposit(address indexed from, uint amount);
+    ```
+12. Now, to make use of them, add the line `emit Withdrawal(msg.sender, withdraw_amount);` to the bottom of the `withdraw` function, and `emit Deposit(msg.sender, msg.value);` inside the code block (`{}`) of the fallback function (`// Accept any incoming amount` block).
         // Contract constructor: set owner
         constructor() public {
             owner = msg.sender;
