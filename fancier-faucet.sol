@@ -9,8 +9,7 @@ contract Owned {
     }
     // Access control modifier
     modifier onlyOwner {
-        require(msg.sender == owner,
-                "Only the contract owner can call this function");
+        require(msg.sender == owner, "Only the contract owner can call this function");
         _;
     }
 }
