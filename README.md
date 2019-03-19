@@ -23,7 +23,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
 3. Name the document `fancier-faucet.sol`.
 4. Copy and paste the provided [starter code][StarterCode] into the blank document.
     * This code represents a faucet, which will allow anyone to pay it any amount of ETH and will give anyone freely from its reserve any amount requested, provided that it is less than or equal to 100000000000000000 wei (17 zeros) or 0.1 ETH.
-5. Our first modification will be an exercise in modularity and inheritence. In the same file, above the original contract, make a new contract named `Owned`. Then move the `address owner;` line and the `constructor() ... }` block (including the //comment) from the Faucet contract into the Owned contract.
+5. Our first modification will be an exercise in modularity and inheritence. In the same file, above the original contract, make a new contract named `Owned`. Then move the `address owner;` line and the `// Contract constructor: set owner` block from the Faucet contract into the Owned contract.
 6. Inside the Owned contract, add the following code under the constructor:
     ```solidity
     // Access control modifier
