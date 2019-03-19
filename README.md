@@ -58,7 +58,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     }
 
     contract Mortal is Owned {
-    // Contract destructor
+        // Contract destructor
         function destroy() public onlyOwner {
             selfdestruct(msg.sender);
         }
@@ -69,9 +69,11 @@ This lab will modify a pre-existing faucet smart contract to include additional 
         function withdraw(uint withdraw_amount) public {
             // Limit withdrawal amount
             require(withdraw_amount <= 0.1 ether);
+
             // Send the amount to the address that requested it
             msg.sender.transfer(withdraw_amount);
         }
+
         // Accept any incoming amount
         function () external payable {}
     }
@@ -86,6 +88,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
         constructor() public {
             owner = msg.sender;
         }
+
         // Access control modifier
         modifier onlyOwner {
             require(msg.sender == owner, "Only the contract owner can call this function");
@@ -109,10 +112,11 @@ This lab will modify a pre-existing faucet smart contract to include additional 
             // Limit withdrawal amount
             require(withdraw_amount <= 0.1 ether);
             require(address(this).balance >= withdraw_amount, "Insufficient balance in faucet for withdrawal request");
-                // Send the amount to the address that requested it
-                msg.sender.transfer(withdraw_amount);
-                emit Withdrawal(msg.sender, withdraw_amount);
-            }
+            // Send the amount to the address that requested it
+            msg.sender.transfer(withdraw_amount);
+            emit Withdrawal(msg.sender, withdraw_amount);
+        }
+
         // Accept any incoming amount
         function () external payable {
             emit Deposit(msg.sender, msg.value);
