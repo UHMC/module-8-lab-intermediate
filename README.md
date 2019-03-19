@@ -84,6 +84,14 @@ This lab will modify a pre-existing faucet smart contract to include additional 
     event Deposit(address indexed from, uint amount);
     ```
 12. Now, to make use of them, add the line `emit Withdrawal(msg.sender, withdraw_amount);` to the bottom of the `withdraw` function, and `emit Deposit(msg.sender, msg.value);` inside the code block (`{}`) of the fallback function (`// Accept any incoming amount` block).
+9. Now, we should have a faucet contract that looks like this:
+    ```solidity
+    // Version of Solidity compiler this program was written for
+    pragma solidity ^0.5.1;
+
+    contract Owned {
+        address owner;
+
         // Contract constructor: set owner
         constructor() public {
             owner = msg.sender;
