@@ -7,7 +7,7 @@ This lab will modify a pre-existing faucet smart contract to include additional 
 | Attribute | Explanation |
 | - | - |
 | Summary | This assignment involves creating, deploying, and interacting with a faucet smart contract. |
-| Topics  | Smart contracts, faucets, tokens. |
+| Topics | Smart contracts, faucets, tokens. |
 | Audience | Appropriate for CS1 or a later course. |
 | Difficulty | Intermediate. |
 | Strengths | This assignment exposes students to popular technology (blockchain) and some of its features. There is additional focus on some features of the Solidity programming language. |
